@@ -1,7 +1,4 @@
-import { Container, Heading, Stack, Box, Button, VStack } from '@chakra-ui/react';
-
-import { Posts } from '@/sections';
-import { PostsForm } from '@/sections/postsForm';
+import { Container, Heading, Button, VStack, Input } from '@chakra-ui/react';
 
 function Home() {
   return (
@@ -12,6 +9,7 @@ function Home() {
         <Heading as="h1" size="2xl">
           Я заголовок
         </Heading>
+        <Input placeholder="Я инпут" />
       </VStack>
     </Container>
   );
