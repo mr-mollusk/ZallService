@@ -18,6 +18,7 @@ export const buttonTheme = defineStyleConfig({
   sizes: {
     md: {
       padding: '12px 83px',
+      fontWeight: 600,
     },
   },
   variants: { solid, outline },

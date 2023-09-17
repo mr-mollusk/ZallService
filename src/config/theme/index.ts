@@ -7,6 +7,7 @@ export const theme = extendTheme({
     secondary: '#17283F',
     background: '#0C1622',
   },
+  fonts: { body: 'WixMadeforDisplay', heading: 'WixMadeforDisplay' },
   components: {
     Button: buttonTheme,
   },
