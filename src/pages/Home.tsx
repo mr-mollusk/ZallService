@@ -9,6 +9,9 @@ function Home() {
       <VStack>
         <Button>Я кнопка</Button>
         <Button variant="outline">Я кнопка</Button>
+        <Heading as="h1" size="2xl">
+          Я заголовок
+        </Heading>
       </VStack>
     </Container>
   );
