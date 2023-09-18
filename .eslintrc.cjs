@@ -23,6 +23,7 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'react/jsx-props-no-spreading': 0,
     'no-param-reassign': 0,
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
 
     'linebreak-style': 'off', // Неправильно работает в Windows.
 

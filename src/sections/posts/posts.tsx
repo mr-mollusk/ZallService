@@ -4,7 +4,7 @@ import { Post } from '@/shared/components';
 import { useAppSelector } from '@/store/hooks';
 import { selectPosts, usePostsActions } from '@/store/postsReducer';
 
-function Posts() {
+const Posts = () => {
   const bottomAnchor = useRef<HTMLDivElement>(null);
   const posts = useAppSelector(selectPosts);
   const { deletePost } = usePostsActions();
@@ -33,6 +33,6 @@ function Posts() {
       <div ref={bottomAnchor} />
     </Stack>
   );
-}
+};
 
 export { Posts };
