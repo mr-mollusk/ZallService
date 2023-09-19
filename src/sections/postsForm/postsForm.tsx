@@ -28,7 +28,7 @@ const defaultValues: Omit<IPost, 'id'> = {
   image: '',
 };
 
-function PostsForm() {
+const PostsForm = () => {
   const { addPost } = usePostsActions();
 
   const {
@@ -71,6 +71,6 @@ function PostsForm() {
       <Button type="submit">Добавить</Button>
     </Stack>
   );
-}
+};
 
 export { PostsForm };
