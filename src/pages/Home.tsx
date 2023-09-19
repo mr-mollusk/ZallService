@@ -1,18 +1,16 @@
-import { Container, Heading, Stack, Box } from '@chakra-ui/react';
-
-import { Posts } from '@/sections';
-import { PostsForm } from '@/sections/postsForm';
+import { Container, Heading, Button, VStack, Input } from '@chakra-ui/react';
 
 function Home() {
   return (
     <Container>
-      <Box position="sticky" top="0" zIndex="1" bg="white" p={2}>
-        <Heading>Posts</Heading>
-        <PostsForm />
-      </Box>
-      <Stack mt="4">
-        <Posts />
-      </Stack>
+      <VStack>
+        <Button>Я кнопка</Button>
+        <Button variant="outline">Я кнопка</Button>
+        <Heading as="h1" size="2xl">
+          Я заголовок
+        </Heading>
+        <Input placeholder="Я инпут" />
+      </VStack>
     </Container>
   );
 }

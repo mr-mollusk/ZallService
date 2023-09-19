@@ -6,11 +6,12 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { WrappedApp } from './App';
 import { store } from './store';
+import { theme } from './config';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <WrappedApp />
       </ChakraProvider>
     </Provider>
