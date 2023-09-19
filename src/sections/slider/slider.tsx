@@ -61,7 +61,7 @@ export const Slider: React.FC<ISlider> = ({ images }) => {
       >
         {images.map((img, index) => (
           <SwiperSlide key={img} onClick={() => setActiveSlide(index)}>
-            <Box p={'10px 7.5px'}>
+            <Box p="10px 7.5px">
               <Image
                 src={img}
                 height="160px"
