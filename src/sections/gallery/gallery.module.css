@@ -1,0 +1,40 @@
+.activeSlide {
+  border: 2px solid var(--chakra-colors-primary);
+}
+
+.sliderPanel .activeSlide {
+  filter: none;
+}
+
+.image {
+  filter: grayscale(100%);
+  border-radius: 5px;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.arrowButton {
+  --chakra-colors-gallery-background: #d9d9d933;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--chakra-colors-gallery-background);
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  border: 3px solid var(--chakra-colors-primary);
+  border-radius: 50%;
+  z-index: 4;
+}
+.left {
+  left: 2%;
+  top: 50%;
+}
+.right {
+  top: 50%;
+  right: 2%;
+  transform: scaleX(-1);
+}

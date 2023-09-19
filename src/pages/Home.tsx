@@ -1,19 +1,14 @@
-import { Container, Heading, Stack, Box } from '@chakra-ui/react';
-
-import { Posts } from '@/sections';
-import { PostsForm } from '@/sections/postsForm';
+import { Center, Container } from '@chakra-ui/react';
+import { Gallery } from '@/sections';
+import { sliderMock } from '@/mock';
 
 function Home() {
   return (
-    <Container>
-      <Box position="sticky" top="0" zIndex="1" bg="white" p={2}>
-        <Heading>Posts</Heading>
-        <PostsForm />
-      </Box>
-      <Stack mt="4">
-        <Posts />
-      </Stack>
-    </Container>
+    <Center h="100vh">
+      <Container minW="container.md">
+        <Gallery images={sliderMock} />
+      </Container>
+    </Center>
   );
 }
 
