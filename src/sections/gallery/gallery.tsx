@@ -1,52 +1,61 @@
-import { Swiper, SwiperProps, SwiperSlide, useSwiper } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide, useSwiper } from 'swiper/react';
 import { Navigation, Controller } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import { ISlider, ISliderArrowButton } from './slider.types';
-import { Box, Icon, Image } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { Box, Image } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import s from './slider.module.css';
+import s from './gallery.module.css';
 import { Swiper as SwiperType } from 'swiper';
-import ArrowIcon from '../../assets/svg/sliderArrow.svg';
 import { SliderIcon } from '@/assets/svg/sliderArrow';
+import { IGallery, IGalleryArrowButton } from './gallery.types';
 
-export const Slider: React.FC<ISlider> = ({ images }) => {
+export const Gallery: React.FC<IGallery> = ({ images }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [controlledSwiper, setControlledSwiper] = useState<SwiperType>();
-  const [mainSlider, setMainSlider] = useState<SwiperType>();
+  const controlledSwiper = useRef<SwiperType>(null);
+  const mainSlider = useRef<SwiperType>(null);
 
   useEffect(() => {
-    controlledSwiper?.slideTo(activeSlide);
-    mainSlider?.slideTo(activeSlide);
+    if (controlledSwiper.current && mainSlider?.current) {
+      controlledSwiper?.current.slideTo(activeSlide);
+      mainSlider?.current.slideTo(activeSlide);
+    }
   }, [activeSlide]);
 
   const handleChangeActiveSlide = (newActiveSlide: number) => {
     setActiveSlide(newActiveSlide);
-    console.log(newActiveSlide);
   };
 
-  const handleControl = (swiper: SwiperType) => {
-    setControlledSwiper(swiper);
-  };
   const handleMainSliderInit = (swiper: SwiperType) => {
-    setMainSlider(swiper);
+    //@ts-ignore
+    mainSlider.current = swiper;
+  };
+  const handleControl = (swiper: SwiperType) => {
+    //@ts-ignore
+    controlledSwiper.current = swiper;
   };
 
   return (
     <Box className={s.wrapper}>
       <Swiper
         modules={[Navigation, Controller]}
-        controller={{ control: controlledSwiper }}
+        controller={{ control: controlledSwiper.current }}
         slidesPerView={1}
         onSlideChange={(swiper) => handleChangeActiveSlide(swiper.activeIndex)}
         onSwiper={(swiper) => handleMainSliderInit(swiper)}
       >
         <SliderArrowButton side="left" />
-        {images.map((img) => (
-          <SwiperSlide key={img}>
-            <Image src={img} height="400px" w="100%" objectFit="cover" />
+        {images.map(({ src, alt, fallback, height, id, width }) => (
+          <SwiperSlide key={id}>
+            <Image
+              src={src}
+              height="400px"
+              w="100%"
+              objectFit="cover"
+              alt={alt}
+              fallbackSrc={fallback}
+            />
           </SwiperSlide>
         ))}
         <SliderArrowButton side="right" />
@@ -59,15 +68,17 @@ export const Slider: React.FC<ISlider> = ({ images }) => {
         className={s.sliderPanel}
         onSwiper={(swiper) => handleControl(swiper)}
       >
-        {images.map((img, index) => (
-          <SwiperSlide key={img} onClick={() => setActiveSlide(index)}>
+        {images.map(({ src, alt, fallback, height, id, width }, index) => (
+          <SwiperSlide key={id} onClick={() => setActiveSlide(index)}>
             <Box p="10px 7.5px">
               <Image
-                src={img}
+                src={src}
+                alt={alt}
                 height="160px"
                 w="100%"
                 objectFit="cover"
-                className={clsx({ [s.activeSlide]: activeSlide === index })}
+                fallbackSrc={fallback}
+                className={clsx(s.image, { [s.activeSlide]: activeSlide === index })}
               />
             </Box>
           </SwiperSlide>
@@ -77,7 +88,7 @@ export const Slider: React.FC<ISlider> = ({ images }) => {
   );
 };
 
-const SliderArrowButton: React.FC<ISliderArrowButton> = ({ side }) => {
+const SliderArrowButton: React.FC<IGalleryArrowButton> = ({ side }) => {
   const swiper = useSwiper();
 
   const handleClick = () => {
@@ -89,7 +100,7 @@ const SliderArrowButton: React.FC<ISliderArrowButton> = ({ side }) => {
   };
 
   return (
-    <Box onClick={() => handleClick()} className={clsx(s.arrowButton, s[side])}>
+    <Box onClick={handleClick} className={clsx(s.arrowButton, s[side])}>
       <SliderIcon width="19" height="39" />
     </Box>
   );

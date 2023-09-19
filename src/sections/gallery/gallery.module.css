@@ -1,12 +1,12 @@
 .activeSlide {
-  border: 2px solid #e74362;
+  border: 2px solid var(--chakra-colors-primary);
 }
 
 .sliderPanel .activeSlide {
   filter: none;
 }
 
-.sliderPanel img {
+.image {
   filter: grayscale(100%);
   border-radius: 5px;
 }
@@ -16,15 +16,16 @@
 }
 
 .arrowButton {
+  --chakra-colors-gallery-background: #d9d9d933;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #d9d9d933;
+  background: var(--chakra-colors-gallery-background);
   width: 70px;
   height: 70px;
   position: absolute;
-  border: 3px solid #e74362;
+  border: 3px solid var(--chakra-colors-primary);
   border-radius: 50%;
   z-index: 4;
 }

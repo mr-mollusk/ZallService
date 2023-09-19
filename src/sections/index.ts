@@ -1,2 +1,2 @@
 export * from './posts';
-export * from './slider';
+export * from './gallery';
