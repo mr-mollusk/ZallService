@@ -1,13 +1,72 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
+import { BrowserRouter } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { actionCreators } from './store';
+import { Button, Container, VStack } from '@chakra-ui/react';
 
 export function App() {
+  const { changeUserById, getUserById, login, logout } = actionCreators.userActions;
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.user);
+  const handleMakeNewUser = () => {
+    dispatch(
+      changeUserById({
+        id: 26,
+        newData: {
+          username: 'newName',
+          email: '1@no.no',
+          first_name: 'newName',
+          last_name: 'newName',
+          user_agreement: true,
+          offer_agreement: true,
+          password: '12345678',
+          interest: [],
+        },
+      }),
+    );
+  };
+
+  const handleLoadUserbyId = () => {
+    dispatch(getUserById(26));
+    dispatch(
+      login({
+        username: 'lalala',
+        password: '12345687',
+      }),
+    );
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleConsoleLog = () => {
+    console.log(state);
+  };
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div>
+      {/* <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes> */}
+      <Container>
+        <VStack pt={20}>
+          <Button w="100%" onClick={handleMakeNewUser}>
+            Создать пользователя
+          </Button>
+          <Button w="100%" onClick={handleLoadUserbyId}>
+            Загрузить токен
+          </Button>
+          <Button w="100%" onClick={handleLogout}>
+            выйти из системы
+          </Button>
+
+          <Button w="100%" onClick={handleConsoleLog}>
+            Консоль
+          </Button>
+        </VStack>
+      </Container>
+    </div>
   );
 }
 
