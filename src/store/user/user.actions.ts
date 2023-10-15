@@ -1,38 +1,36 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/api';
-import { ILoginData, IToken, IUser } from '@/models';
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { ILoginData, IUserDTO } from '@/models';
 import { IChangeUserThunkBody } from './user.types';
-import { userSincActions } from './user.reducer';
+import { LocalStorage } from '@/utils';
 
-const postUserAction = createAsyncThunk(
+const createUserAction = createAsyncThunk(
   'user/postUser',
-  async (userData: Omit<IUser, 'id'>, { rejectWithValue }) => {
-    const response = await api.userApi.postUser(userData);
+  async (userData: Omit<IUserDTO, 'id'>, { rejectWithValue }) => {
+    const response = await api.userApi.createUser(userData);
     if (response.isError) {
       return rejectWithValue(response.error);
-    } else {
-      return response.data as IUser;
     }
+    return response.data as IUserDTO;
   },
 );
+
 const getUserById = createAsyncThunk('user/getUser', async (id: number, { rejectWithValue }) => {
   const response = await api.userApi.getUserById(id);
   if (response.isError) {
     return rejectWithValue(response.error);
-  } else {
-    return response.data;
   }
+  return response.data;
 });
 
-const changeUserById = createAsyncThunk<IUser, IChangeUserThunkBody>(
+const changeUserById = createAsyncThunk<IUserDTO, IChangeUserThunkBody>(
   'user/changeUser',
   async ({ id, newData }, { rejectWithValue }) => {
     const response = await api.userApi.patchUserById(id, newData);
     if (response.isError) {
       return rejectWithValue(response.error);
-    } else {
-      return response.data;
     }
+    return response.data;
   },
 );
 
@@ -42,17 +40,16 @@ const login = createAsyncThunk<boolean, ILoginData>(
     const response = await api.userApi.getToken(loginData);
     if (response.data) {
       const { access, refresh } = response.data;
-      localStorage.setItem('access', access);
-      localStorage.setItem('refresh', refresh);
+      LocalStorage.setItem('access', access);
+      LocalStorage.setItem('refresh', refresh);
       return true;
-    } else {
-      return rejectWithValue(response.error);
     }
+    return rejectWithValue(response.error);
   },
 );
 
 export const userAsyncActions = {
-  postUserAction,
+  createUserAction,
   getUserById,
   changeUserById,
   login,

@@ -1,74 +1,39 @@
-import { ILoginData, IToken, IUser } from '@/models';
-import { PromiseRequestData } from '../api.types';
-import { apiInstance } from '../instance.api';
-import { AxiosError } from 'axios';
+import { ILoginData, IToken, IUserDTO } from '@/models';
+import { PromiseRequestData } from '../config/api.types';
+import { apiInstance } from '../config/instance.api';
+import { ApiBuilder } from '@/utils';
 
-const getUsers = async (): PromiseRequestData<IUser[]> => {
-  try {
-    const { data } = await apiInstance.get('user/');
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const getUsers = async (): PromiseRequestData<IUserDTO[]> => {
+  return ApiBuilder.get('user/');
 };
 
-const postUser = async (newUser: IUser): PromiseRequestData<Omit<IUser, 'id'>> => {
-  try {
-    const { data } = await apiInstance.post('user/', newUser);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const createUser = async (newUser: IUserDTO): PromiseRequestData<Omit<IUserDTO, 'id'>> => {
+  return apiInstance.post('user/', newUser);
 };
 
-const getUserById = async (id: number): PromiseRequestData<IUser> => {
-  try {
-    const { data } = await apiInstance.get(`user/${id}/`);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const getUserById = async (id: number): PromiseRequestData<IUserDTO> => {
+  return ApiBuilder.get(`user/${id}/`);
 };
 
-const putUserById = async (id: number, newData: IUser): PromiseRequestData<IUser> => {
-  try {
-    const { data } = await apiInstance.put(`user/${id}/`, newData);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const putUserById = async (id: number, newData: IUserDTO): PromiseRequestData<IUserDTO> => {
+  return ApiBuilder.put(`user/${id}/`, newData);
 };
 
-const patchUserById = async (id: number, newData: IUser): PromiseRequestData<IUser> => {
-  try {
-    const { data } = await apiInstance.patch(`user/${id}/`, newData);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const patchUserById = async (id: number, newData: IUserDTO): PromiseRequestData<IUserDTO> => {
+  return ApiBuilder.patch(`user/${id}/`, newData);
 };
 
 const getToken = async (loginData: ILoginData) => {
-  try {
-    const { data } = await apiInstance.post<IToken>(`token/`, loginData);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+  return ApiBuilder.post(`token/`, loginData);
 };
 
-const refreshToken = async (refreshToken: string) => {
-  try {
-    const { data } = await apiInstance.post<Pick<IToken, 'access'>>(`token/refresh/`, refreshToken);
-    return { isError: false, data: data };
-  } catch (error) {
-    return { isError: true, error: JSON.stringify(error) };
-  }
+const refreshToken = async (refresh: string) => {
+  return ApiBuilder.post<Pick<IToken, 'access'>>(`token/refresh/`, refresh);
 };
 
 export const userApi = {
   getUsers,
-  postUser,
+  createUser,
   getUserById,
   putUserById,
   patchUserById,

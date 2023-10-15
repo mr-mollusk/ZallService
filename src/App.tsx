@@ -1,12 +1,13 @@
 import { BrowserRouter } from 'react-router-dom';
+import { Button, Container, VStack } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { actionCreators } from './store';
-import { Button, Container, VStack } from '@chakra-ui/react';
 
 export function App() {
   const { changeUserById, getUserById, login, logout } = actionCreators.userActions;
+
   const dispatch = useAppDispatch();
-  const state = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const handleMakeNewUser = () => {
     dispatch(
       changeUserById({
@@ -40,7 +41,7 @@ export function App() {
   };
 
   const handleConsoleLog = () => {
-    console.log(state);
+    console.log(user);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUserReducerState } from './user.types';
+import { IUserReducerState, isPendingAction } from './user.types';
 import { userAsyncActions } from './user.actions';
 
 const initialState: IUserReducerState = {
@@ -27,35 +27,20 @@ const userReducer = createSlice({
         state.isAuth = action.payload;
       },
       prepare: () => {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        console.log();
         return { payload: false };
       },
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(userAsyncActions.postUserAction.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-      state.user = initialState.user;
-    });
-
-    builder.addCase(userAsyncActions.postUserAction.fulfilled, (state, action) => {
+    builder.addCase(userAsyncActions.createUserAction.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.user = action.payload;
     });
 
-    builder.addCase(userAsyncActions.postUserAction.rejected, (state, action) => {
+    builder.addCase(userAsyncActions.createUserAction.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      state.user = initialState.user;
-    });
-
-    builder.addCase(userAsyncActions.getUserById.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
       state.user = initialState.user;
     });
 
@@ -71,12 +56,6 @@ const userReducer = createSlice({
       state.user = initialState.user;
     });
 
-    builder.addCase(userAsyncActions.changeUserById.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-      state.user = initialState.user;
-    });
-
     builder.addCase(userAsyncActions.changeUserById.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
@@ -87,11 +66,6 @@ const userReducer = createSlice({
       state.isLoading = false;
       state.error = action.payload;
       state.user = initialState.user;
-    });
-
-    builder.addCase(userAsyncActions.login.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
     });
 
     builder.addCase(userAsyncActions.login.fulfilled, (state, action) => {
@@ -105,9 +79,13 @@ const userReducer = createSlice({
       state.error = action.payload;
       state.isAuth = false;
     });
+
+    builder.addMatcher(isPendingAction, (state) => {
+      state.isLoading = true;
+    });
   },
 });
 
 export default userReducer.reducer;
 
-export const userSincActions = userReducer.actions;
+export const userSyncActions = userReducer.actions;

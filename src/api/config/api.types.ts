@@ -9,7 +9,7 @@ export type PaginatedResponse<T> = {
   results: T;
 };
 
-export type PaginatedRequest = {
+export type PaginatedQueryParams = {
   limit?: number;
   offset?: number;
 };

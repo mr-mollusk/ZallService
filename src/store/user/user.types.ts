@@ -1,7 +1,8 @@
-import { IUser } from '@/models';
+import { AnyAction, AsyncThunk } from '@reduxjs/toolkit';
+import { IUserDTO } from '@/models';
 
 export interface IUserReducerState {
-  user: IUser;
+  user: IUserDTO;
   error: unknown;
   isLoading: boolean;
   isAuth: boolean;
@@ -9,5 +10,13 @@ export interface IUserReducerState {
 
 export interface IChangeUserThunkBody {
   id: number;
-  newData: Omit<IUser, 'id'>;
+  newData: Omit<IUserDTO, 'id'>;
+}
+
+type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
+
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+
+export function isPendingAction(action: AnyAction): action is PendingAction {
+  return action.type.endsWith('/pending');
 }

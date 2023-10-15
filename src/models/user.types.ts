@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IUserDTO {
   username: string;
   email: string;
   password: string;
@@ -15,7 +15,7 @@ export interface IUser {
   organization?: string;
 }
 
-export type ILoginData = Pick<IUser, 'username' | 'password'>;
+export type ILoginData = Pick<IUserDTO, 'username' | 'password'>;
 
 export interface IToken {
   refresh: string;
