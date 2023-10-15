@@ -16,7 +16,12 @@ export interface IChangeUserThunkBody {
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
 
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
 
 export function isPendingAction(action: AnyAction): action is PendingAction {
   return action.type.endsWith('/pending');
+}
+
+export function isRejectedAction(action: AnyAction): action is RejectedAction {
+  return action.type.endsWith('/rejected');
 }

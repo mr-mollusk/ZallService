@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { PromiseRequestData, apiInstance } from '@/api';
 
-export class ApiBuilder {
+export class Api {
   static async get<T = any>(url: string, axiosConfig?: AxiosRequestConfig): PromiseRequestData<T> {
     try {
       const { data } = await apiInstance.get<T>(url, axiosConfig);
