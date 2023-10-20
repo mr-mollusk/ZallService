@@ -13,7 +13,7 @@ const userActions = {
   login: 'login',
 };
 
-const createUserAction = createAsyncThunk(
+const createUser = createAsyncThunk(
   createActionType(reducerName, userActions.postUser),
   async (userData: Omit<IUserDTO, 'id'>, { rejectWithValue }) => {
     const response = await api.userApi.createUser(userData);
@@ -61,7 +61,7 @@ const login = createAsyncThunk<boolean, ILoginData>(
 );
 
 export const userAsyncActions = {
-  createUserAction,
+  createUser,
   getUserById,
   changeUserById,
   login,

@@ -7,7 +7,7 @@ const getUsers = async (): PromiseRequestData<IUserDTO[]> => {
 };
 
 const createUser = async (newUser: IUserDTO): PromiseRequestData<Omit<IUserDTO, 'id'>> => {
-  return Api.post('user/', newUser);
+  return Api.post('user/', { ...newUser, interest: [] });
 };
 
 const getUserById = async (id: number): PromiseRequestData<IUserDTO> => {

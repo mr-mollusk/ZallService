@@ -1,18 +1,28 @@
-import { defineStyleConfig } from '@chakra-ui/react';
+import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 
-export const inputTheme = defineStyleConfig({
-  baseStyle: {
-    background: 'inputBackground',
-    fontFamily: 'WixMadeforDisplay',
+const helpers = createMultiStyleConfigHelpers(['addon', 'field', 'element']);
+
+export const styledVariant = helpers.definePartsStyle(() => ({
+  field: {
+    padding: '15px 26px',
+    color: 'inputPlaceholder',
+    backgroundColor: 'white',
     fontWeight: 600,
-    fontSize: '18px',
     lineHeight: '23px',
     _placeholder: {
-      fontFamily: 'WixMadeforDisplay',
       fontWeight: 600,
-      fontSize: '18px',
       lineHeight: '23px',
       color: 'inputPlaceholder',
     },
   },
+}));
+
+export const inputTheme = helpers.defineMultiStyleConfig({
+  variants: { register: styledVariant },
+  sizes: {
+    md: {
+      // field: { fontSize: '18px' },
+    },
+  },
+  defaultProps: { variant: 'register', size: 'md' },
 });

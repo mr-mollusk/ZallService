@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUserReducerState, isPendingAction, isRejectedAction } from './user.types';
+import { IUserReducerState } from './user.types';
 import { userAsyncActions } from './user.actions';
+import { isPendingAction, isRejectedAction } from '../types';
 
 const initialState: IUserReducerState = {
   user: {
@@ -14,7 +15,7 @@ const initialState: IUserReducerState = {
     interest: [],
   },
   error: null,
-  isLoading: false,
+  status: 'initial',
   isAuth: false,
 };
 
@@ -32,36 +33,36 @@ const userReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(userAsyncActions.createUserAction.fulfilled, (state, action) => {
-      state.isLoading = false;
+    builder.addCase(userAsyncActions.createUser.fulfilled, (state, action) => {
+      state.status = 'successful';
       state.error = null;
       state.user = action.payload;
     });
 
     builder.addCase(userAsyncActions.getUserById.fulfilled, (state, action) => {
-      state.isLoading = false;
+      state.status = 'successful';
       state.error = null;
       state.user = action.payload;
     });
 
     builder.addCase(userAsyncActions.changeUserById.fulfilled, (state, action) => {
-      state.isLoading = false;
+      state.status = 'successful';
       state.error = null;
       state.user = action.payload;
     });
 
     builder.addCase(userAsyncActions.login.fulfilled, (state, action) => {
-      state.isLoading = false;
+      state.status = 'successful';
       state.error = null;
       state.isAuth = action.payload;
     });
 
     builder.addMatcher(isPendingAction, (state) => {
-      state.isLoading = true;
+      state.status = 'loading';
     });
 
     builder.addMatcher(isRejectedAction, (state, action) => {
-      state.isLoading = false;
+      state.status = 'error';
       state.error = action.payload;
       state.user = initialState.user;
     });

@@ -1,16 +1,22 @@
-import { Container, Heading, Button, VStack, Input } from '@chakra-ui/react';
+import { Box, Container, Heading, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
     <Container>
-      <VStack>
-        <Button>Я кнопка</Button>
-        <Button variant="outline">Я кнопка</Button>
-        <Heading as="h1" size="2xl">
-          Я заголовок
-        </Heading>
-        <Input placeholder="Я инпут" />
-      </VStack>
+      <Heading>Я домашняя страница, тут пока ничего нет</Heading>
+      <Box>
+        Чтобы зарегистрировать пользователя - перейди по роуту{' '}
+        <Text color="teal.400" fontWeight={700}>
+          <Link to="/registration">registration</Link>
+        </Text>
+      </Box>
+      <Box>
+        Чтобы авторизоваться - перейди по роуту{' '}
+        <Text color="teal.400" fontWeight={700}>
+          <Link to="/auth">auth</Link>
+        </Text>
+      </Box>
     </Container>
   );
 }
