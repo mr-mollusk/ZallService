@@ -1,8 +1,9 @@
 import { Box, Button, FormControl, FormErrorMessage, Input, VStack } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ILoginData } from '@/models';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { actionCreators } from '@/store';
+import { useErrorToast } from '@/shared';
 
 export function AuthForm() {
   const {
@@ -16,7 +17,9 @@ export function AuthForm() {
     },
   });
   const dispatch = useAppDispatch();
-
+  const status = useAppSelector((state) => state.user.status);
+  const error = useAppSelector((state) => state.user.error);
+  useErrorToast(error);
   const onSubmit: SubmitHandler<ILoginData> = (data) => {
     dispatch(
       actionCreators.userActions.login({
@@ -46,7 +49,9 @@ export function AuthForm() {
             {errors.password && <FormErrorMessage>{errors.password.message}</FormErrorMessage>}
           </FormControl>
         </Box>
-        <Button type="submit">Войти</Button>
+        <Button isLoading={status === 'loading'} type="submit">
+          Войти
+        </Button>
       </VStack>
     </form>
   );

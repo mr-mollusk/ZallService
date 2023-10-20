@@ -15,7 +15,8 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserDTO } from '@/models';
 import { actionCreators } from '@/store';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useErrorToast } from '@/shared';
 
 export function RegistrationForm() {
   const {
@@ -32,7 +33,11 @@ export function RegistrationForm() {
       password: '',
     },
   });
+
   const dispatch = useAppDispatch();
+  const status = useAppSelector((state) => state.user.status);
+  const error = useAppSelector((state) => state.user.error);
+  useErrorToast(error);
   const [isStaff, setIsStaff] = useState(false);
   const [userAgreement, setUserAgreement] = useState(false);
   const [offerAgreement, setOfferAgreement] = useState(false);
@@ -59,6 +64,7 @@ export function RegistrationForm() {
   const confirmOfferAgreementHandler = () => {
     setOfferAgreement((previos) => !previos);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <FormControl mt="20px" mb="20px">
@@ -142,7 +148,9 @@ export function RegistrationForm() {
             Я подтверждаю ознакомление и согласие с Публичной офертой
           </Checkbox>
         </VStack>
-        <Button type="submit">Зарегистрироваться</Button>
+        <Button isLoading={status === 'loading'} type="submit">
+          Зарегистрироваться
+        </Button>
       </VStack>
     </form>
   );
