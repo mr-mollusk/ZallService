@@ -2,6 +2,8 @@ import { extendTheme } from '@chakra-ui/react';
 import { buttonTheme } from './button';
 import { headingTheme } from './heading';
 import { inputTheme } from './input';
+import { chekboxTheme } from './chekbox';
+import { radioTheme } from './radio';
 
 export const theme = extendTheme({
   colors: {
@@ -11,7 +13,10 @@ export const theme = extendTheme({
     inputBackground: '#D9D9D9',
     inputPlaceholder: '#00344F66',
   },
-  fonts: { body: 'WixMadeforDisplay', heading: 'WixMadeforDisplay' },
+  styles: {
+    global: { '#root': { backgroundColor: 'background', minHeight: '100vh', color: 'white' } },
+  },
+  fonts: { body: `"WixMadeforDisplay", sans-serif`, heading: `"WixMadeforDisplay", sans-serif` },
   fontSizes: {
     sm: '12px',
     md: '16px',
@@ -24,5 +29,7 @@ export const theme = extendTheme({
     Button: buttonTheme,
     Heading: headingTheme,
     Input: inputTheme,
+    Checkbox: chekboxTheme,
+    Radio: radioTheme,
   },
 });

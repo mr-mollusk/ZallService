@@ -32,7 +32,7 @@ const userReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(userAsyncActions.createUserAction.fulfilled, (state, action) => {
+    builder.addCase(userAsyncActions.createUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.user = action.payload;
